@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 import Countries from "./components/Countries";
+import Search from "./components/Search";
 
 const URL = `https://restcountries.com/v3.1/all`;
 
@@ -30,6 +31,14 @@ function App() {
     fetchData(URL);
   }, []);
 
+  const handleSearch = (inputValue) => {
+    let value = inputValue.toLowerCase();
+    const newCountries = countries.filter((country) => {
+      const countryName = country.name.common.toLowerCase();
+      return countryName.startsWith(value);
+    });
+    setFilteredCountries(newCountries);
+  };
   const handleRemoveCountry = (name) => {
     const filter = filteredCountries.filter(
       (country) => country.name.common !== name
@@ -39,6 +48,7 @@ function App() {
   return (
     <>
       <h1>Country App</h1>
+      <Search handleSearch={handleSearch}></Search>
       {isLoading && <h2>Loading..</h2>}
       {error && <h2>{error.message}</h2>}
       {countries && (
