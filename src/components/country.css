@@ -19,6 +19,7 @@
   border: none;
   border-radius: 0.6rem;
   cursor: pointer;
+  padding: 0.6rem;
   background-color: orange;
   transition: all 0.3s;
 }

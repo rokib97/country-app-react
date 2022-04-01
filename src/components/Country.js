@@ -1,6 +1,6 @@
 import React from "react";
 import "./country.css";
-const Country = ({ country }) => {
+const Country = ({ country, handleRemoveCountry }) => {
   const { name, flags, capital, population, area } = country;
   return (
     <article className="country">
@@ -10,6 +10,12 @@ const Country = ({ country }) => {
         <h3>Population: {population}</h3>
         <h3>Capital: {capital}</h3>
         <h3>Area: {area}</h3>
+        <button
+          className="btn"
+          onClick={() => handleRemoveCountry(name.common)}
+        >
+          Remove Country
+        </button>
       </div>
     </article>
   );
