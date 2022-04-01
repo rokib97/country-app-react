@@ -1,24 +1,41 @@
-import logo from './logo.svg';
-import './App.css';
+import { useEffect, useState } from "react";
+import "./App.css";
+import Countries from "./components/Countries";
+
+const URL = `https://restcountries.com/v3.1/all`;
 
 function App() {
+  const [isLoading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [countries, setCountries] = useState([]);
+
+  const fetchData = async (URl) => {
+    setLoading(true);
+
+    try {
+      const response = await fetch(URL);
+      const data = await response.json();
+      setCountries(data);
+
+      setLoading(false);
+      setError(null);
+    } catch (error) {
+      setLoading(false);
+      setError(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData(URL);
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <h1>Country App</h1>
+      {isLoading && <h2>Loading..</h2>}
+      {error && <h2>{error.message}</h2>}
+      {countries && <Countries countries={countries}></Countries>}
+    </>
   );
 }
 
